@@ -1,16 +1,18 @@
 import React from 'react'
+import { shallow } from 'enzyme'
+
 import { iconFor, maskFor } from '../src/networks'
 import Icon from '../src/icon'
 import Mask from '../src/mask'
+import SocialIconLink from '../src/social-icon-link'
 import SocialIcon from '../src/social-icon'
 import Background from '../src/background'
-import { shallow } from 'enzyme'
 
-describe('<SocialIcon />', () => {
+describe('<SocialIconLink />', () => {
   const url = 'http://pinterest.com'
   let socialIcon
   beforeEach(() => {
-    socialIcon = shallow(<SocialIcon url={url} />)
+    socialIcon = shallow(<SocialIconLink url={url} />)
   })
 
   it('takes a url prop', () => {
@@ -32,7 +34,7 @@ describe('<SocialIcon />', () => {
 
   it('can add a target prop', () => {
     const a = shallow(
-      <SocialIcon url={url} target="_blank" rel="noopener noreferrer" />
+      <SocialIconLink url={url} target="_blank" rel="noopener noreferrer" />
     ).find('a')
     a.props().target.should.eql('_blank')
     a.props().rel.should.eql('noopener noreferrer')
@@ -40,6 +42,85 @@ describe('<SocialIcon />', () => {
 
   it('renders the container', () => {
     socialIcon.find('.social-container').length.should.eql(1)
+  })
+
+  it('renders the display svg', () => {
+    socialIcon.find('.social-svg').length.should.eql(1)
+  })
+
+  it('renders a circle for the background', () => {
+    socialIcon.find('social-svg-background').length.should.eql(0)
+    socialIcon.find(Background).length.should.eql(1)
+    socialIcon
+      .find(Background)
+      .shallow()
+      .find('circle')
+      .length.should.eql(1)
+  })
+
+  it('renders an icon based on the url', () => {
+    const path = socialIcon
+      .find(Icon)
+      .shallow()
+      .find('path')
+    path.prop('d').should.eql(iconFor('pinterest'))
+  })
+
+  it('renders a mask based on the url', () => {
+    const mask = socialIcon
+      .find(Mask)
+      .shallow()
+      .find('path')
+    mask.prop('d').should.eql(maskFor('pinterest'))
+  })
+
+  it('takes a network prop for overriding default generated from url', () => {
+    socialIcon = shallow(<SocialIconLink url={url} network="github" />)
+    const mask = socialIcon
+      .find(Mask)
+      .shallow()
+      .find('path')
+    mask.prop('d').should.eql(maskFor('github'))
+  })
+
+  it('takes a bgColor prop for overriding default bgColor', () => {
+    const bgColor = 'pink'
+    socialIcon = shallow(<SocialIconLink bgColor={bgColor} network="github" />)
+    const mask = socialIcon
+      .find(Mask)
+      .shallow()
+      .find('.social-svg-mask')
+    mask.prop('style').fill.should.eql(bgColor)
+  })
+
+  it('takes a fgColor prop for overriding default transparent fgColor', () => {
+    const fgColor = 'red'
+    socialIcon = shallow(<SocialIconLink fgColor={fgColor} network="github" />)
+    const icon = socialIcon
+      .find(Icon)
+      .shallow()
+      .find('.social-svg-icon')
+    icon.prop('style').fill.should.eql(fgColor)
+  })
+})
+
+describe('<SocialIcon />', () => {
+  const url = 'http://pinterest.com'
+  let socialIcon
+  beforeEach(() => {
+    socialIcon = shallow(<SocialIcon url={url} />)
+  })
+
+  it('does not take a url prop', () => {
+    socialIcon.props().should.not.have.property('url')
+  })
+
+  it('does not render the anchor with the url', () => {
+    socialIcon.find('a').length.should.eql(0)
+  })
+
+  it('does not render a div', () => {
+    socialIcon.find('div').length.should.eql(0)
   })
 
   it('renders the display svg', () => {
