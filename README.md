@@ -1,13 +1,18 @@
-# react-social-icons
+# react-social-svgs
 
 A set of beautiful svg social icons.  Easily used in React.  No images or external css dependencies.  Svg paths provided by Squarespace.
 
 ![social network icons](https://i.imgur.com/RoIt9OD.png)
 
+**Note:**  
+What's different compared to the [source repo](https://github.com/jaketrent/react-social-icons)?  
+The source repo wasn't very actively being maintained, and I wanted to make and use a change in that repo that changed how the `SocialIcon` component was rendered.
+So I just forked it and published this one.
+
 ## Install
 
 ```
-npm install react-social-icons --save-dev
+yarn add react-social-svgs
 ```
 
 ## Usage
@@ -17,8 +22,13 @@ Pass in the `url` prop of your social network, and the icon will be rendered.
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { SocialIcon } from 'react-social-icons';
-ReactDOM.render(<SocialIcon url="https://twitter.com/jaketrent" />, document.body);
+import { SocialIcon, SocialIconLink } from 'react-social-svgs';
+
+// To render just an SVG
+ReactDOM.render(<SocialIcon url="https://twitter.com/jayantbhawal" />, document.body);
+
+// To render an SVG inside an Anchor tag
+ReactDOM.render(<SocialIconLink url="https://twitter.com/jayantbhawal" />, document.body);
 ```
 
 See more [usage options on the example site](https://jaketrent.github.io/react-social-icons/).
@@ -31,11 +41,16 @@ git rebase master
 sh scripts/gen-gh-pages.sh
 ```
 
+## Test
+
+```
+yarn test
+```
+
 ## Release
 
 ```
-npm version <semver>
-npm publish
+yarn publish
 ```
 
 ## Contributing
