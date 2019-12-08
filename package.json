@@ -15,11 +15,12 @@
   "author": "jaketrent",
   "license": "MIT",
   "contributors": [
+    "Jayant Bhawal <me@jayantbhawal.in>",
     "Vitaly Aminev <v@makeomatic.ru>"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/jaketrent/react-social-icons"
+    "url": "https://github.com/jayantbhawal/react-social-icons"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
